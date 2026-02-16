@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogModule, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,6 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../models/user.class';
+import { AsyncPipe } from '@angular/common';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { doc, setDoc, addDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-dialog-add-user',
@@ -27,12 +30,14 @@ import { User } from '../../models/user.class';
 export class DialogAddUser {
   user = new User();
   birthdate?: Date;
+  firestore = inject(Firestore);
 
   saveUser() {
     if (this.birthdate) {
       this.user.birthDate = this.birthdate?.getTime();
     }
-    console.log('Current User: ', this.user);
+    console.log('Current User: ', this.user.toJSON());
+    this.addUser(this.user);
   }
 
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
@@ -44,4 +49,20 @@ export class DialogAddUser {
     }
     return '';
   };
+
+  getNotesRef() {
+    return collection(this.firestore, 'users');
+  }
+
+  async addUser(user: User) {
+    const docRef = await addDoc(this.getNotesRef(), user.toJSON())
+      .catch((err) => {
+        console.error(err);
+      })
+      .then((docRef) => {
+        console.log('Document written with ID: ', docRef?.id);
+      });
+  }
+
+  createUserObj() {}
 }
