@@ -1,5 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { MatDialogModule, MatDialogActions, MatDialogContent } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +15,7 @@ import { User } from '../../models/user.class';
 import { AsyncPipe } from '@angular/common';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { doc, setDoc, addDoc } from 'firebase/firestore';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-dialog-add-user',
@@ -22,6 +28,7 @@ import { doc, setDoc, addDoc } from 'firebase/firestore';
     FormsModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatProgressBarModule,
   ],
   templateUrl: './dialog-add-user.html',
   styleUrl: './dialog-add-user.scss',
@@ -30,7 +37,9 @@ import { doc, setDoc, addDoc } from 'firebase/firestore';
 export class DialogAddUser {
   user = new User();
   birthdate?: Date;
-  firestore = inject(Firestore);
+  private firestore = inject(Firestore);
+  loading = false;
+  dialogRef = inject(MatDialogRef<DialogAddUser>);
 
   saveUser() {
     if (this.birthdate) {
@@ -55,12 +64,15 @@ export class DialogAddUser {
   }
 
   async addUser(user: User) {
+    this.loading = true;
     const docRef = await addDoc(this.getNotesRef(), user.toJSON())
       .catch((err) => {
         console.error(err);
       })
       .then((docRef) => {
         console.log('Document written with ID: ', docRef?.id);
+        this.loading = false;
+        this.dialogRef.close();
       });
   }
 
