@@ -6,11 +6,13 @@
                 <th>E-Mail</th>
                 <th>City</th>
             </tr>
+            @for (user of allUsers; track $index) {
             <tr>
-                <td>Max</td>
-                <td>Mustermann</td>
-                <td>Hannover</td>
+                <td>{{user.firstName}} {{user.lastName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.city}}</td>
             </tr>
+            }
         </table>
     </mat-card-content>
     <mat-card-content></mat-card-content>

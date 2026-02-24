@@ -1,6 +1,5 @@
-import { Injectable, OnInit, inject } from '@angular/core';
+import { Injectable, inject, runInInjectionContext, Injector } from '@angular/core';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
-import { doc, setDoc, addDoc, getDocs } from 'firebase/firestore';
 import { User } from '../../models/user.class';
 
 @Injectable({
@@ -8,17 +7,13 @@ import { User } from '../../models/user.class';
 })
 export class UsersService {
   private firestore = inject(Firestore);
+  private injector = inject(Injector);
+  allUsers: any = [];
 
-  getUsersRef() {
-    return collection(this.firestore, 'users');
-  }
-
-  async loadUsers() {
-    const usersRef = this.getUsersRef();
-    const snapshot = await getDocs(usersRef);
-    snapshot.docs.map((doc) => {
-      const user = doc.data() as User;
-      console.log(user.firstName);
+  getUsers() {
+    return runInInjectionContext(this.injector, () => {
+      const usersRef = collection(this.firestore, 'users');
+      return collectionData(usersRef, { idField: 'id' });
     });
   }
 }

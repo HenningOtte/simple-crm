@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, runInInjectionContext, Injector } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogAddUser } from '../dialog-add-user/dialog-add-user';
 import { MatCardModule } from '@angular/material/card';
 import { UsersService } from '../services/users-service';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-user',
@@ -24,23 +25,31 @@ import { UsersService } from '../services/users-service';
   styleUrl: './user.scss',
 })
 export class User implements OnInit {
+  private firestore = inject(Firestore);
   positionOptions = ['above'];
   readonly dialog = inject(MatDialog);
   readonly animal = signal('');
-  usersService = inject(UsersService);
+  private injector = inject(Injector);
+  readonly usersService = inject(UsersService);
+  allUsers: any[] = [];
 
-  openDialog(): void {
+  openDialog() {
     const dialogRef = this.dialog.open(DialogAddUser, {});
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       if (result !== undefined) {
         this.animal.set(result);
       }
     });
   }
 
-  ngOnInit(): void {
-    this.usersService.loadUsers();
+  observeUsers() {
+    this.usersService.getUsers().subscribe((users) => {
+      this.allUsers = users;
+    });
+  }
+
+  ngOnInit() {
+    this.observeUsers();
   }
 }

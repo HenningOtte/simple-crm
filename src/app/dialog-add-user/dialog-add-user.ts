@@ -76,5 +76,9 @@ export class DialogAddUser {
       });
   }
 
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
   createUserObj() {}
 }
