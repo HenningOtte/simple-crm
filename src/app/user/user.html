@@ -7,7 +7,7 @@
                 <th>City</th>
             </tr>
             @for (user of allUsers; track $index) {
-            <tr>
+            <tr [routerLink]="'/user/' + user.id">
                 <td>{{user.firstName}} {{user.lastName}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.city}}</td>

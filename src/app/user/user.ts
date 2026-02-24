@@ -9,6 +9,7 @@ import { DialogAddUser } from '../dialog-add-user/dialog-add-user';
 import { MatCardModule } from '@angular/material/card';
 import { UsersService } from '../services/users-service';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -20,6 +21,8 @@ import { Firestore, collectionData, collection } from '@angular/fire/firestore';
     MatDialogModule,
     DialogAddUser,
     MatCardModule,
+    RouterLink,
+    RouterModule,
   ],
   templateUrl: './user.html',
   styleUrl: './user.scss',
