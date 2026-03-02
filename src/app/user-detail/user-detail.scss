@@ -1,4 +1,5 @@
 .user-detail-header {
+  position: relative;
   min-height: 260px;
   padding: 16px;
   display: flex;
@@ -26,4 +27,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.address-container {
+  position: relative;
+
+  button {
+    position: absolute;
+    right: 8px;
+    top: 16px;
+    cursor: pointer;
+  }
+}
+
+.edit-user {
+  position: absolute;
+  right: 8px;
+  top: 16px;
+  cursor: pointer;
 }

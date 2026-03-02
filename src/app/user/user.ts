@@ -8,7 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogAddUser } from '../dialog-add-user/dialog-add-user';
 import { MatCardModule } from '@angular/material/card';
 import { UsersService } from '../services/users-service';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
@@ -47,8 +47,11 @@ export class User implements OnInit {
   }
 
   observeUsers() {
-    this.usersService.getUsers().subscribe((users) => {
-      this.allUsers = users;
+    runInInjectionContext(this.injector, () => {
+      this.usersService.getUsers().subscribe((users) => {
+        this.allUsers = users;
+        console.log(users);
+      });
     });
   }
 
