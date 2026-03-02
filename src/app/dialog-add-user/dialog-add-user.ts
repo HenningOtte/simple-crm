@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { User } from '../../models/user.class';
-import { AsyncPipe } from '@angular/common';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { doc, setDoc, addDoc } from 'firebase/firestore';
 import { MatProgressBarModule } from '@angular/material/progress-bar';

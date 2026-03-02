@@ -42,7 +42,8 @@ export class UserDetail implements OnInit {
   private injector = inject(Injector);
 
   editMenu() {
-    const dialogRef = this.dialog.open(DialogEditAddress, {});
+    const dialog = this.dialog.open(DialogEditAddress);
+    dialog.componentInstance.user = this.singelUser;
   }
 
   editUserDetail() {

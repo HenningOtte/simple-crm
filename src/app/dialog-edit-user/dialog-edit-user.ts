@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './dialog-edit-user.html',
   styleUrl: './dialog-edit-user.scss',
 })
-export class DialogEditUser {
-
-}
+export class DialogEditUser {}
