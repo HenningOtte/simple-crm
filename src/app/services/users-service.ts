@@ -1,6 +1,12 @@
 import { Injectable, inject, runInInjectionContext, Injector } from '@angular/core';
-import { Firestore, collectionData, collection, docData } from '@angular/fire/firestore';
-import { doc } from 'firebase/firestore';
+import {
+  Firestore,
+  collectionData,
+  collection,
+  docData,
+  doc,
+  updateDoc,
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -20,5 +26,10 @@ export class UsersService {
 
   getUsers() {
     return collectionData(this.usersRef(), { idField: 'id' });
+  }
+
+  async updateUser(id: string, user: any) {
+    const userRef = doc(this.usersRef(), id);
+    await updateDoc(userRef, user);
   }
 }

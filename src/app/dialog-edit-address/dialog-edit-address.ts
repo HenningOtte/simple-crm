@@ -39,6 +39,7 @@ export class DialogEditAddress {
   user = new User();
   birthdate?: Date;
   data = inject(MAT_DIALOG_DATA);
+  userId: any = '';
 
   saveUser() {
     console.log('Test');

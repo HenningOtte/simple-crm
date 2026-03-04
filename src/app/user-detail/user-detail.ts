@@ -43,11 +43,14 @@ export class UserDetail implements OnInit {
 
   editMenu() {
     const dialog = this.dialog.open(DialogEditAddress);
-    dialog.componentInstance.user = this.singelUser;
+    dialog.componentInstance.user = new User(this.singelUser.toJSON());
+    dialog.componentInstance.userId = this.userId;
   }
 
   editUserDetail() {
-    const dialogRef = this.dialog.open(DialogEditUser, {});
+    const dialog = this.dialog.open(DialogEditUser);
+    dialog.componentInstance.user = new User(this.singelUser.toJSON());
+    dialog.componentInstance.userId = this.userId;
   }
 
   ngOnInit() {
@@ -55,7 +58,8 @@ export class UserDetail implements OnInit {
       const id = this.activatedRoute.snapshot.paramMap.get('id');
       if (!id) return;
 
-      this.usersService.singleUserRef(id).subscribe((user) => {
+      this.userId = id;
+      this.usersService.singleUserRef(this.userId).subscribe((user) => {
         this.singelUser = new User(user);
         this.cd.detectChanges();
       });
