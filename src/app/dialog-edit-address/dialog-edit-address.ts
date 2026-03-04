@@ -37,14 +37,13 @@ export class DialogEditAddress {
   usersService = inject(UsersService);
   loading = false;
   user = new User();
-  birthdate?: Date;
   data = inject(MAT_DIALOG_DATA);
   userId: any = '';
 
   saveUser() {
-    console.log('Test');
-    // console.log('Current User: ', this.user.toJSON());
-    // this.addUser(this.user);
+    if (this.userId && this.user) {
+      this.usersService.updateUser(this.userId, this.user);
+    }
   }
 
   getNotesRef() {

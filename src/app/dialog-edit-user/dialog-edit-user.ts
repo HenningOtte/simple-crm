@@ -49,7 +49,9 @@ export class DialogEditUser {
     if (this.birthdate) {
       this.user.birthDate = this.birthdate?.getTime();
     }
-    console.log('Is working!');
+    if (this.userId && this.user) {
+      this.usersService.updateUser(this.userId, this.user);
+    }
   }
 
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
